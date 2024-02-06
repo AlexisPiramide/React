@@ -8,25 +8,31 @@ import GET from './componentes/Peticiones/GET';
 
 function App() {
   
-  const [articulosDisponibles, setArticulosDisponibles] = useState(getData);
-  const [articulosCesta, setArticulosCesta] = useState([]);
-
-  async function getData() {
-
-    const URL_SERVER = "http://18.213.254.148:3000/";
-    try {
-        const response = await fetch(URL_SERVER + "articulos");
+  const [articulosDisponibles, setArticulosDisponibles] = useState([]);
+  const [articulosCesta, setArticulosCesta] = useState([]);  
+  const [filter,setFilter]=useState('')
+  useEffect(() => {
+    async function getter(){
+      const URL_SERVER = "http://18.213.254.148:3000/";
+      try {
+        /*nombre_like no funciona en la alpha*/
+        const response = await fetch(URL_SERVER + "articulos?nombre="+filter);
         const data = await response.json();
-        return data;
-    } catch (error) {
+        setArticulosDisponibles(data);
+      } catch (error) {
         console.error('Error:', error);
+      }
     }
-}
 
+    getter();
+
+  }, [filter]);
+
+  console.log(articulosDisponibles)
   return (
     <>
         <Cesta articulosCesta={articulosCesta}/>
-        <ArticulosDisponibles 
+        <ArticulosDisponibles filter={filter} setFilter={setFilter}
           articulosDisponibles={articulosDisponibles.filter((articulo)=>articulo.unidades>0)} 
           setArticulosCesta={setArticulosCesta} 
           setArticulosDisponibles={setArticulosDisponibles}/>

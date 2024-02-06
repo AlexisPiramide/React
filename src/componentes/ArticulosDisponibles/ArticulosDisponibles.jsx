@@ -1,13 +1,13 @@
 import BarraBusqueda from "../BarraBusqueda/BarraBusqueda";
 import { useState } from "react";
 
-export default function ArticulosDisponibles({ articulosDisponibles, setArticulosCesta, setArticulosDisponibles }) {   
+export default function ArticulosDisponibles({ articulosDisponibles, setArticulosCesta, setArticulosDisponibles,setFilter , filter }) {   
 
    const agregarArticulo = (articulo) => {
         setArticulosCesta((previusState)=>[...previusState, articulo]);
         setArticulosDisponibles(articulosDisponibles.map(art => art.codigo === articulo.codigo ? {...art, unidades: art.unidades - 1} : art));
     }   
-    const [filter,setFilter]=useState('')
+   
     return (
         <div>
             <h2>Artículos Disponibles</h2>
